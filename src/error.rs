@@ -56,3 +56,33 @@ impl BoxedError {
         BoxedError(Box::new(error))
     }
 }
+
+#[cfg_attr(feature="mock_windows", cfg(unix))]
+#[cfg(windows)]
+#[macro_export]
+macro_rules! win32_err {
+    ($expr:expr) => {{
+        let status = $expr;
+        if status = ::windows_sys::Win32::Foundation::NO_ERROR {
+            Ok(())
+        } else {
+            Err(::std::io::Error::from_raw_os_error(status as i32))
+        }
+    }};
+    ($expr:expr, $msg:expr) => {{
+        let status = $expr;
+        if status == ::windows_sys::Win32::Foundation::NO_ERROR {
+            Ok(())
+        } else {
+            Err(::std::io::Error::new(::std::io::ErrorKind::Other, $msg))
+        }
+    }};
+}
+
+#[cfg(not(windows))]
+#[macro_export]
+macro_rules! win32_err {
+    ($expr:expr) => {{
+        compile_error!("win32_err! is only supported on Windows.");
+    }};
+}
