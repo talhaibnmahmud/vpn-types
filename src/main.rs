@@ -1,5 +1,5 @@
 use std::io;
-use vpn_types::error::ErrorExtension;
+use vpn_types::error::{ErrorExtension, BoxedError};
 
 fn main() {
 
@@ -12,4 +12,7 @@ fn main() {
 
     // Use display_chain_with_message
     println!("{}", main_error.display_chain_with_message("An error occurred while processing the request"));
+
+    let err: BoxedError = io::Error::new(io::ErrorKind::Other, "Some error").into();
+    println!("{}", err.display_chain());
 }
