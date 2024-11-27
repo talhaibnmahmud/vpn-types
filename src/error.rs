@@ -1,13 +1,19 @@
-use std::{error::Error, fmt::{self, Write}};
+use std::{
+    error::Error,
+    fmt::{self, Write},
+};
 
 pub trait ErrorExtension {
     fn display_chain(&self) -> String;
     fn display_chain_with_message(&self, message: &str) -> String;
 
-    fn format_chain(&self, message: Option<&str>) -> String where Self: Error {
+    fn format_chain(&self, message: Option<&str>) -> String
+    where
+        Self: Error,
+    {
         let mut s = match message {
             Some(msg) => format!("Error: {msg}\nCaused by: {self}"),
-            None => format!("Error: {self}")
+            None => format!("Error: {self}"),
         };
 
         let mut source = self.source();
@@ -57,7 +63,7 @@ impl BoxedError {
     }
 }
 
-#[cfg_attr(feature="mock_windows", cfg(unix))]
+#[cfg_attr(feature = "mock_windows", cfg(unix))]
 #[cfg(windows)]
 #[macro_export]
 macro_rules! win32_err {

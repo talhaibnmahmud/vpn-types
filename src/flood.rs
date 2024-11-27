@@ -1,7 +1,7 @@
 pub mod flood {
     #[doc(hidden)]
     pub use log;
-    
+
     const CALLS_INTERVAL: std::time::Duration = std::time::Duration::from_secs(5);
     const CALLS_THRESHOLD: usize = 1_000;
 
@@ -42,7 +42,8 @@ pub mod flood {
     #[macro_export]
     macro_rules! detect_flood {
         () => {{
-            static FLOOD: ::std::sync::Mutex<$crate::flood::DetectFlood> = ::std::sync::Mutex::new($crate::flood::DetectFlood::new());
+            static FLOOD: ::std::sync::Mutex<$crate::flood::DetectFlood> =
+                ::std::sync::Mutex::new($crate::flood::DetectFlood::new());
             if FLOOD.lock().unwrap().bump() {
                 $crate::flood::log::warn!(
                     "Flood: {}, line {}, col {}",
