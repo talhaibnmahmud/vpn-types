@@ -1,0 +1,15 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always",
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "git.branchProtection": [
+        "main"
+    ],
+    "git.enableCommitSigning": true,
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true
+    },
+}
